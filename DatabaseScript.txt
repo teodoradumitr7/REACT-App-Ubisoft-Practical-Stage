@@ -1,0 +1,175 @@
+Create table games
+(
+[id_game] [int] IDENTITY(1,1) NOT NULL,
+		  [game_name] [nvarchar](100) NOT NULL,
+		  [edition] [nvarchar](40) NOT NULL,
+		  [storage] [float](2) NULL,
+		  [launch_date] [date] NOT NULL,
+		  [multiplayer] [bit] NULL,
+		  [genre] [nvarchar](70) NOT NULL,
+PRIMARY KEY CLUSTERED
+(
+	[id_game] asc	
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) on [primary]
+
+CREATE TABLE developers(
+	[id_developer] [int] IDENTITY(1,1) NOT NULL,
+	[developer_name] [nvarchar](255) NOT NULL,
+PRIMARY KEY CLUSTERED 
+(
+	[id_developer] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+
+
+CREATE TABLE games_developers(
+	[id_game] [int] NOT NULL,
+	[id_developer] [int] NOT NULL,
+	[worked_hours] [int] default 0 not null,
+	CONSTRAINT PK_GAME_DEVELOPERS PRIMARY KEY (id_game, id_developer),
+	CONSTRAINT FK_DEVELOPERS FOREIGN KEY (id_developer)
+    REFERENCES developers(id_developer),
+	CONSTRAINT FK_GAMES FOREIGN KEY (id_game)
+    REFERENCES games(id_game)
+) ON [PRIMARY]
+
+
+CREATE TABLE platforms(
+	[id_platform] [int] IDENTITY(1,1) NOT NULL,
+	[platform_name] [nvarchar](255) NOT NULL,
+PRIMARY KEY CLUSTERED 
+(
+	[id_platform] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+
+
+CREATE TABLE games_platforms(
+	[id_game] [int] NOT NULL,
+	[id_platform] [int] NOT NULL,
+	CONSTRAINT PK_GAME_PLATFORMS PRIMARY KEY (id_game, id_platform),
+	CONSTRAINT FK_PLATFORM FOREIGN KEY (id_platform)
+    REFERENCES platforms(id_platform),
+	CONSTRAINT FK_GAMES1 FOREIGN KEY (id_game)
+    REFERENCES games(id_game)
+) ON [PRIMARY]
+
+CREATE TABLE users(
+	[id_user] [int] NOT NULL,
+	[username] [nvarchar](255) NOT NULL,
+	[id_game] [int] not null,
+	constraint PK_USERS PRIMARY KEY(id_user,id_game),
+	CONSTRAINT FK_GAMES3 FOREIGN KEY (id_game)
+    REFERENCES games(id_game),
+) ON [PRIMARY]
+
+Insert [dbo].users ([id_user],[username],[id_game]) values (1,'AdelinaH7',1)
+Insert [dbo].users ([id_user],[username],[id_game]) values (1,'AdelinaH7',2)
+Insert [dbo].users ([id_user],[username],[id_game]) values (1,'AdelinaH7',5)
+Insert [dbo].users ([id_user],[username],[id_game]) values (1,'AdelinaH7',4)
+
+Insert [dbo].users ([id_user],[username],[id_game]) values (2,'TeodoraDumitr7',2)
+Insert [dbo].users ([id_user],[username],[id_game]) values (2,'TeodoraDumitr7',3)
+Insert [dbo].users ([id_user],[username],[id_game]) values (2,'TeodoraDumitr7',4)
+Insert [dbo].users ([id_user],[username],[id_game]) values (2,'TeodoraDumitr7',1)
+Insert [dbo].users ([id_user],[username],[id_game]) values (3,'ditanu',3)
+Insert [dbo].users ([id_user],[username],[id_game]) values (3,'ditanu',5)
+Insert [dbo].users ([id_user],[username],[id_game]) values (4,'displ3y',5)
+Insert [dbo].users ([id_user],[username],[id_game]) values (4,'displ3y',2)
+Insert [dbo].users ([id_user],[username],[id_game]) values (4,'displ3y',1)
+
+INSERT [dbo].[platforms] ([platform_name]) VALUES ('PC')
+INSERT [dbo].[platforms] ([platform_name]) VALUES ('PS5')
+INSERT [dbo].[platforms] ([platform_name]) VALUES ('PS4')
+INSERT [dbo].[platforms] ([platform_name]) VALUES ('XBOX ONE')
+INSERT [dbo].[platforms] ([platform_name]) VALUES ('MOBILE')
+INSERT [dbo].[platforms] ([platform_name]) VALUES ('NINTENDO SWITCH')
+INSERT [dbo].[platforms] ([platform_name]) VALUES ('WII')
+INSERT [dbo].[platforms] ([platform_name]) VALUES ('XBOX SERIES X/S')
+INSERT [dbo].[platforms] ([platform_name]) VALUES ('VR')
+--far cry 6
+INSERT [dbo].[developers] ([developer_name]) values ('Navid Khavari')
+INSERT [dbo].[developers] ([developer_name]) values ('Giancarlo Esposito')
+INSERT [dbo].[developers] ([developer_name]) values ('Anthony Gonzalez')
+INSERT [dbo].[developers] ([developer_name]) values ('Pedro Bromfman')
+
+insert [dbo].[games] ([game_name],[storage],[launch_date],[multiplayer],[genre],[edition]) values ('Far Cry 6',80.24,'07.10.2021',0,'Action','Collector''s')
+insert [dbo].[games_platforms] ([id_game],[id_platform]) values (1,1)
+insert [dbo].[games_platforms] ([id_game],[id_platform]) values (1,2)
+insert [dbo].[games_platforms] ([id_game],[id_platform]) values (1,3)
+insert [dbo].[games_platforms] ([id_game],[id_platform]) values (1,4)
+insert [dbo].[games_platforms] ([id_game],[id_platform]) values (1,8)
+
+insert [dbo].[games_developers] ([id_game],[id_developer],[worked_hours]) values (1,1,320)
+insert [dbo].[games_developers] ([id_game],[id_developer],[worked_hours]) values (1,2,123)
+insert [dbo].[games_developers] ([id_game],[id_developer],[worked_hours]) values (1,3,89)
+insert [dbo].[games_developers] ([id_game],[id_developer],[worked_hours]) values (1,4,167)
+
+--assassin's creed valhalla
+INSERT [dbo].[developers] ([developer_name]) values ('Julien Laferrière')
+INSERT [dbo].[developers] ([developer_name]) values ('Yohan Cazuax')
+INSERT [dbo].[developers] ([developer_name]) values ('Claude Langlais')
+INSERT [dbo].[developers] ([developer_name]) values ('Raphael Lacoste')
+
+insert [dbo].[games] ([game_name],[storage],[launch_date],[multiplayer],[genre],[edition]) values ('Assasin''s Creed',65.85,'10.11.2020',0,'Action','Deluxe')
+insert [dbo].[games_platforms] ([id_game],[id_platform]) values (2,1)
+insert [dbo].[games_platforms] ([id_game],[id_platform]) values (2,2)
+insert [dbo].[games_platforms] ([id_game],[id_platform]) values (2,3)
+insert [dbo].[games_platforms] ([id_game],[id_platform]) values (2,4)
+insert [dbo].[games_platforms] ([id_game],[id_platform]) values (2,8)
+
+insert [dbo].[games_developers] ([id_game],[id_developer],[worked_hours]) values (2,5,295)
+insert [dbo].[games_developers] ([id_game],[id_developer],[worked_hours]) values (2,6,69)
+insert [dbo].[games_developers] ([id_game],[id_developer],[worked_hours]) values (2,7,125)
+insert [dbo].[games_developers] ([id_game],[id_developer],[worked_hours]) values (2,8,183)
+
+--The Crew 2
+insert [dbo].[games] ([game_name],[storage],[launch_date],[multiplayer],[genre],[edition]) values ('The Crew 2',90.23,'06.29.2018',1,'Racing','Ultimate')
+INSERT [dbo].[developers] ([developer_name]) values ('Didier Blanche')
+INSERT [dbo].[developers] ([developer_name]) values ('Boris Mellet')
+INSERT [dbo].[developers] ([developer_name]) values ('Stéphane Jankowski')
+INSERT [dbo].[developers] ([developer_name]) values ('Olivier Gueydon')
+
+insert [dbo].[games_platforms] ([id_game],[id_platform]) values (3,1)
+insert [dbo].[games_platforms] ([id_game],[id_platform]) values (3,2)
+insert [dbo].[games_platforms] ([id_game],[id_platform]) values (3,3)
+insert [dbo].[games_platforms] ([id_game],[id_platform]) values (3,4)
+insert [dbo].[games_platforms] ([id_game],[id_platform]) values (3,7)
+insert [dbo].[games_platforms] ([id_game],[id_platform]) values (3,8)
+
+insert [dbo].[games_developers] ([id_game],[id_developer],[worked_hours]) values (3,9,476)
+insert [dbo].[games_developers] ([id_game],[id_developer],[worked_hours]) values (3,10,99)
+insert [dbo].[games_developers] ([id_game],[id_developer],[worked_hours]) values (3,11,144)
+insert [dbo].[games_developers] ([id_game],[id_developer],[worked_hours]) values (3,12,356)
+
+--just dance 2021
+insert [dbo].[games] ([game_name],[storage],[launch_date],[multiplayer],[genre],[edition]) values ('Just Dance 2021',12.74,'11.12.2020',1,'Dancing','Standard')
+insert [dbo].[games_platforms] ([id_game],[id_platform]) values (4,3)
+insert [dbo].[games_platforms] ([id_game],[id_platform]) values (4,4)
+insert [dbo].[games_platforms] ([id_game],[id_platform]) values (4,2)
+insert [dbo].[games_platforms] ([id_game],[id_platform]) values (4,8)
+insert [dbo].[games_platforms] ([id_game],[id_platform]) values (4,7)
+
+INSERT [dbo].[developers] ([developer_name]) values ('Sylvain Glaize')
+INSERT [dbo].[developers] ([developer_name]) values ('Emmanuel Astier')
+INSERT [dbo].[developers] ([developer_name]) values ('Olivier Adelh')
+
+insert [dbo].[games_developers] ([id_game],[id_developer],[worked_hours]) values (4,13,148)
+insert [dbo].[games_developers] ([id_game],[id_developer],[worked_hours]) values (4,14,81)
+insert [dbo].[games_developers] ([id_game],[id_developer],[worked_hours]) values (4,15,111)
+
+--Tom Clancy’s The Division 2
+insert [dbo].[games] ([game_name],[storage],[launch_date],[multiplayer],[genre],[edition]) values ('Tom Clancy’s The Division 2',8,'03.03.2020',1,'Action','Ultimate')
+insert [dbo].[games_platforms] ([id_game],[id_platform]) values (5,3)
+insert [dbo].[games_platforms] ([id_game],[id_platform]) values (5,4)
+insert [dbo].[games_platforms] ([id_game],[id_platform]) values (5,1)
+
+INSERT [dbo].[developers] ([developer_name]) values ('Carl Johan Lejdfors')
+INSERT [dbo].[developers] ([developer_name]) values ('Cristian Pana')
+INSERT [dbo].[developers] ([developer_name]) values ('Craig Hubbard')
+
+insert [dbo].[games_developers] ([id_game],[id_developer],[worked_hours]) values (5,16,182)
+insert [dbo].[games_developers] ([id_game],[id_developer],[worked_hours]) values (5,17,203)
+insert [dbo].[games_developers] ([id_game],[id_developer],[worked_hours]) values (5,18,404)
+
